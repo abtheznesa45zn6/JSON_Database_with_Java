@@ -15,14 +15,13 @@ public class Main {
         int port = 23456;
 
 
-        try (ServerSocket server = new ServerSocket(port, 50, InetAddress.getByName(address));) {
+        try (ServerSocket server = new ServerSocket(port, 50, InetAddress.getByName(address))) {
             while (alive){
                 Server s = new Server();
                 s.start(server.accept(), database);
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return;
+            throw new RuntimeException();
         }
     }
 }

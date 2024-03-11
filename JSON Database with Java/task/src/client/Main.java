@@ -10,9 +10,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 public class Main {
-    static DataInputStream input;
-    static DataOutputStream output;
-
     @Parameter(names={"--type", "-t"})
     String type = "";
     @Parameter(names={"--index", "-i"})
