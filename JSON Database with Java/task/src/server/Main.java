@@ -1,26 +1,28 @@
 package server;
 
-import java.util.Scanner;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 
 public class Main {
     static ProxyDatabase database = new ProxyDatabase();
+    public static volatile boolean alive = true;
 
     public static void main(String[] args) {
+        System.out.println("Server started!");
 
-        Scanner scanner = new Scanner(System.in);
+        String address = "127.0.0.1";
+        int port = 23456;
 
-        while (scanner.hasNext()) {
 
-            String action = scanner.next();
-
-            if (action.equals("exit")) {return;}
-
-            System.out.println(switch (action) {
-                case "get" -> database.get(scanner.nextInt());
-                case "set" -> database.set(scanner.nextInt(), scanner.nextLine());
-                case "delete" -> database.delete(scanner.nextInt());
-                default -> "ERROR";
-            });
+        try (ServerSocket server = new ServerSocket(port, 50, InetAddress.getByName(address));) {
+            while (alive){
+                Server s = new Server();
+                s.start(server.accept(), database);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return;
         }
     }
 }

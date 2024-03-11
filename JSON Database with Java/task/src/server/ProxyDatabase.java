@@ -13,6 +13,7 @@ public class ProxyDatabase {
     }
 
     String get(int index) {
+        System.out.println("Server sent: A record # "+index+" was sent!");
         String text = database.get(index);
         if (text == null || text.isEmpty()) {
             return ERROR;
